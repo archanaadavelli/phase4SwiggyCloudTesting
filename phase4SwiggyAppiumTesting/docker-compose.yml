@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+    selenium_hub:        
+        container_name: selenium_hub
+        image: selenium/hub
+        ports:
+            - '4444:4444'
+            
+    docker-android-x86-7.1.1:        
+        image: budtmo/docker-android-x86-10.0
+        container_name: android-container        
+        privileged: true
+        depends_on:
+            - selenium_hub
+        ports:
+            - '6080:6080'
+            - '4723:4723'
+            - '5554:5554'
+            - '5555:5555'           
+        volumes:
+            - '/swiggy.apk:/root/tmp'
+        environment:
+            - 'DEVICE=Samsung Galaxy S10'
+            - CONNECT_TO_GRID=true
+            - APPIUM=true
+            - SELENIUM_HOST=selenium_hub
+ #           - AUTO_RECORD=true
+ #           - MOBILE_WEB_TEST=true 
